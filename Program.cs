@@ -13,7 +13,7 @@ namespace HideAndSeek
         static bool[] visited;
         static long[] arrive;
         static long[] leave;
-        static long globalTime = 1;
+        static long globaleZeit = 1;
         [STAThread]
         static void buildTree(ref List<List<int>> tree)
         {
@@ -24,7 +24,7 @@ namespace HideAndSeek
         {
             Console.WriteLine(startNode);
             visited[startNode] = true;
-            arrive[startNode] = globalTime++;
+            arrive[startNode] = globaleZeit++;
             foreach(var childNode in tree[startNode])
             {
                 if (!visited[childNode])
@@ -32,7 +32,7 @@ namespace HideAndSeek
                     DFS(childNode, ref tree);
                 }
             }
-            leave[startNode] = globalTime++;
+            leave[startNode] = globaleZeit++;
         }
 
         static bool isChildOf(int nodeChild, int nodeParent)
