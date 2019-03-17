@@ -176,12 +176,6 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GraphX.PCL.Common\GraphX.PCL.Common.csproj">
-      <Project>{3644d44b-dec0-4b65-bba0-c68e34821aae}</Project>
-      <Name>GraphX.PCL.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
