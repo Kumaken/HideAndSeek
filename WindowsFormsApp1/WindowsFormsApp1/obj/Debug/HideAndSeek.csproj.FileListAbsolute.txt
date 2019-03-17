@@ -1,0 +1,17 @@
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.csprojAssemblyReference.cache
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.csproj.GenerateResource.cache
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.csproj.CoreCompileInputs.cache
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\HideAndSeek.exe.config
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\HideAndSeek.exe
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\HideAndSeek.pdb
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.Form1.resources
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.Properties.Resources.resources
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.exe
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.pdb
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.GLEE.dll
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.GLEE.Drawing.dll
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.GLEE.GraphViewerGDI.dll
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.GLEE.pdb
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.GLEE.Drawing.pdb
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.GLEE.GraphViewerGDI.pdb
+c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.csproj.CopyComplete
