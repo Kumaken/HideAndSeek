@@ -16,6 +16,22 @@ namespace HideAndSeek
         static long[] leave;
         static long globaleZeit = 1;
         [STAThread]
+
+        static List<int> generatePath(int bottom, int upper, bool reverse)
+        {
+            List<int> Path = new List<int>();
+            int current = bottom;
+            while (current != pointsTo[upper])
+            {
+                Path.Add(current);
+                current = pointsTo[current];
+            }
+            if (reverse)
+            {
+                Path.Reverse();
+            }
+            return Path;
+        }
         static void buildTree(ref StreamReader sr, int jmlRumah)
         {
             tree = new List<List<int>>(jmlRumah + 1);
@@ -86,15 +102,7 @@ namespace HideAndSeek
                     if (isChildOf(dest,source))
                     {
                         Console.WriteLine("YES");
-                        List<int> Path = new List<int>();
-                        int current = dest;
-                        while (current != pointsTo[source])
-                        {
-                            Path.Add(current);
-                            current = pointsTo[current];
-                        }
-                        Path.Reverse();
-                        Console.WriteLine(String.Join(" -> ", Path));
+                        Console.WriteLine(String.Join(" -> ", generatePath(dest, source, true)));
                     }
                     else
                     {
@@ -106,14 +114,7 @@ namespace HideAndSeek
                     if (isChildOf(source, dest))
                     {
                         Console.WriteLine("YES");
-                        List<int> Path = new List<int>();
-                        int current = source;
-                        while (current != pointsTo[dest])
-                        {
-                            Path.Add(current);
-                            current = pointsTo[current];
-                        }
-                        Console.WriteLine(String.Join(" -> ", Path));
+                        Console.WriteLine(String.Join(" -> ", generatePath(source, dest, false)));
                     }
                     else
                     {
