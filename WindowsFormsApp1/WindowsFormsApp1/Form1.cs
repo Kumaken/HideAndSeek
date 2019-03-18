@@ -94,7 +94,7 @@ namespace HideAndSeek
 
         private void QueryButton_Click(object sender, EventArgs e)
         {
-            Process.runQuery(this);
+            Process.runQuery(this,Process.f2);
         }
 
         private void fileURLTextBox_TextChanged(object sender, EventArgs e)
@@ -129,6 +129,10 @@ namespace HideAndSeek
         public String getFileURL()
         {
             return this.fileURLTextBox.Text;
+        }
+        public String getFileURL2()
+        {
+            return this.fileURLTextBox2.Text;
         }
         //Get 0/1 from textbox:
         public String get01()
@@ -176,11 +180,37 @@ namespace HideAndSeek
             pictureBox1.Refresh();
             pictureBox1.Visible = true;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DialogResult result = this.openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                this.fileURLTextBox2.Text = this.openFileDialog.FileName;
+            }
+        }
+
+        private void fileURLTextBox2_TextChanged(object sender, EventArgs e)
+        {
+            this.changePictureIDLE();
+            this.label10.Visible = false;
+            if (this.fileURLTextBox.Text != "")
+            {
+                Process.fileQuery(this, Process.f2);
+                Process.f2.Show();
+            }
+            else
+            {
+                this.fileURLTextBox2.Text = "PROCESS FAIL: Build graph first please!";
+            }
+            
+        }
     }
 
     //MAIN FUNCTIONS:
     static class Process
     {
+        static int jmlRumah;
         static List<List<int>> tree;
         static int[] pointsTo;
         static bool[] visited;
@@ -194,6 +224,7 @@ namespace HideAndSeek
         static System.Windows.Forms.Form graphForm = new System.Windows.Forms.Form();
         // Create object GViewer to view the constructed graph
         static Microsoft.Glee.GraphViewerGdi.GViewer viewer = new Microsoft.Glee.GraphViewerGdi.GViewer();
+        static public Form2 f2 = new Form2();
         //[STAThread]
         static void buildTree(ref StreamReader sr, int jmlRumah)
         {
@@ -240,7 +271,7 @@ namespace HideAndSeek
             return arrive[nodeChild] > arrive[nodeParent] && leave[nodeChild] < leave[nodeParent];
         }
         // Generate Path:
-        static public void generatePath(int bottom, int upper, bool reverse)
+        static public List<int> generatePath(int bottom, int upper, bool reverse)
         {
             Path.Clear();
             int current = bottom;
@@ -253,6 +284,7 @@ namespace HideAndSeek
             {
                 Path.Reverse();
             }
+            return Path;
         }
         // Uncolor Graph:
         public static void resetGraph()
@@ -320,10 +352,9 @@ namespace HideAndSeek
         // FUNCTION TO DO LOAD GRAPH AND RUN DFS:
         public static void runDFS(Form1 f1)
         {
-
             StreamReader sr = new StreamReader(@f1.getFileURL());
             string Rumah = sr.ReadLine();
-            int jmlRumah = Int32.Parse(Rumah);
+            jmlRumah = Int32.Parse(Rumah);
 
             buildTree(ref sr, jmlRumah);
 
@@ -355,7 +386,56 @@ namespace HideAndSeek
         }
 
     // FUNCTION TO DO QUERY:
-        public static void runQuery(Form1 f1)
+        public static void fileQuery(Form1 f1,Form2 f2)
+        {
+            f2.resetBox();
+            StreamReader sr = new StreamReader(@f1.getFileURL2());
+            string Query = sr.ReadLine();
+            int jmlQuery = Int32.Parse(Query);
+
+            for (int i = 0; i < jmlQuery; i++)
+            {
+                string[] line = sr.ReadLine().Split();
+                int Q = Int32.Parse(line[0]);
+                int dest = Int32.Parse(line[1]);
+                int source = Int32.Parse(line[2]);
+
+                if (dest > jmlRumah || dest < 1 || source > jmlRumah || source < 1)
+                {
+                    f2.resetBox();
+                    f2.writeToBox("QUERY ERROR: INPUT OUT OF BOUNDS!");
+                    f2.Show();
+                }
+                else
+                {
+                    if (Q == 1)
+                    {
+                        if (isChildOf(dest, source))
+                        {
+                            f2.writeToBox("YES");
+                            f2.writeToBox(String.Join(" -> ", generatePath(dest, source, true)));
+                        }
+                        else
+                        {
+                            f2.writeToBox("NO");
+                        }
+                    }
+                    else
+                    {
+                        if (isChildOf(source, dest))
+                        {
+                            f2.writeToBox("YES");
+                            f2.writeToBox(String.Join(" -> ", generatePath(source, dest, false)));
+                        }
+                        else
+                        {
+                            f2.writeToBox("NO");
+                        }
+                    }
+                }
+            }
+    }
+        public static void runQuery(Form1 f1, Form2 f2)
         {
 
             if (f1.get01() != "" || f1.geta() != "" || f1.getb() != "" || f1.getFileURL() != "")
@@ -365,51 +445,61 @@ namespace HideAndSeek
                 int _a = Int32.Parse(f1.geta());
                 int _b = Int32.Parse(f1.getb());
 
-                // ResetGraph First:
-                if (Path != null)
+                if (_a > jmlRumah || _a < 1 || _b > jmlRumah || _b < 1)
                 {
-                    resetGraph();
-                    viewer.Graph = defaultG;
-                    viewer.Dock = System.Windows.Forms.DockStyle.Fill;
-                    graphForm.Refresh();
-
-                }
-
-                // Check for answer:
-                if (Q == 1)
-                {
-                    if (isChildOf(_a, _b))
-                    {
-                        f1.displayQans(1);
-                        f1.changePictureYES();
-                        // Generate Path:
-                        generatePath(_a, _b, true);
-                        // Update Graph:
-                        updateGraph();
-                    }
-                    else
-                    {
-                        f1.displayQans(0);
-                        f1.changePictureNO();
-                    }
+                    f2.resetBox();
+                    f2.writeToBox("QUERY ERROR: INPUT OUT OF BOUNDS!");
+                    f2.Show();
                 }
                 else
                 {
-                    if (isChildOf(_b, _a))
+                    // ResetGraph First:
+                    if (Path != null)
                     {
-                        f1.displayQans(1);
-                        f1.changePictureYES();
-                        // Generate Path:
-                        generatePath(_b, _a, false);
-                        // Update Graph:
-                        updateGraph();
+                        resetGraph();
+                        viewer.Graph = defaultG;
+                        viewer.Dock = System.Windows.Forms.DockStyle.Fill;
+                        graphForm.Refresh();
+
+                    }
+
+                    // Check for answer:
+                    if (Q == 1)
+                    {
+                        if (isChildOf(_a, _b))
+                        {
+                            f1.displayQans(1);
+                            f1.changePictureYES();
+                            // Generate Path:
+                            generatePath(_a, _b, true);
+                            // Update Graph:
+                            updateGraph();
+                        }
+                        else
+                        {
+                            f1.displayQans(0);
+                            f1.changePictureNO();
+                        }
                     }
                     else
                     {
-                        f1.displayQans(0);
-                        f1.changePictureNO();
+                        if (isChildOf(_b, _a))
+                        {
+                            f1.displayQans(1);
+                            f1.changePictureYES();
+                            // Generate Path:
+                            generatePath(_b, _a, false);
+                            // Update Graph:
+                            updateGraph();
+                        }
+                        else
+                        {
+                            f1.displayQans(0);
+                            f1.changePictureNO();
+                        }
                     }
                 }
+                
             }
             
         }
