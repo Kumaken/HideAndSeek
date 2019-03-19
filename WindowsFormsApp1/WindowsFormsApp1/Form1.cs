@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.Glee.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 
 namespace HideAndSeek
 {
@@ -20,6 +21,8 @@ namespace HideAndSeek
         public Form1()
         {
             InitializeComponent();
+            pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            //uthis.Refresh();
         }
 
     //Various Windows Form Event Handler:
@@ -70,6 +73,7 @@ namespace HideAndSeek
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.fileURLTextBox.Text = "";
             // Show the dialog that allows user to select a file, the 
             // call will result a value from the DialogResult enum
             // when the dialog is dismissed.
@@ -94,14 +98,21 @@ namespace HideAndSeek
 
         private void QueryButton_Click(object sender, EventArgs e)
         {
+            // Create form 2 if somehow closed by user
+            if (Process.f2.IsDisposed)
+                Process.f2 = new Form2();
             Process.runQuery(this,Process.f2);
         }
 
         private void fileURLTextBox_TextChanged(object sender, EventArgs e)
         {
-            this.changePictureIDLE();
-            this.label10.Visible = false;
-            Process.runDFS(this);
+            if(fileURLTextBox.Text != "")
+            {
+                this.changePictureIDLE();
+                this.label10.Visible = false;
+                Process.runDFS(this);
+            }
+
         }
 
         private void label9_Click(object sender, EventArgs e)
@@ -124,7 +135,40 @@ namespace HideAndSeek
 
         }
 
-    //Setter & Getter from Form1 Class for Process Class:
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.fileURLTextBox2.Text = "";
+            DialogResult result = this.openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                this.fileURLTextBox2.Text = this.openFileDialog.FileName;
+            }
+        }
+
+        private void fileURLTextBox2_TextChanged(object sender, EventArgs e)
+        {
+            // Create form 2 if somehow closed by user
+            if (Process.f2.IsDisposed)
+                Process.f2 = new Form2();
+            this.changePictureIDLE();
+            this.label10.Visible = false;
+            if (this.fileURLTextBox2.Text != "")
+            {
+                Process.fileQuery(this, Process.f2);
+                Process.f2.Show();
+                //Console.WriteLine("f2 entered!");
+            }
+            else if (this.fileURLTextBox.Text == "")
+            {
+                Process.f2.resetBox();
+                Process.f2.writeToBox("INPUT ERROR! Invalid format or null input!");
+                Process.f2.Show();
+                //this.fileURLTextBox2.Text = "PROCESS FAIL: Build graph first please!";
+            }
+
+        }
+
+        //Setter & Getter from Form1 Class for Process Class:
         //Get External File URL:
         public String getFileURL()
         {
@@ -169,7 +213,7 @@ namespace HideAndSeek
         //Change Rilakuma to NO!:
         public void changePictureNO()
         {
-            pictureBox1.Image = Properties.Resources.no;
+            pictureBox1.Image = Properties.Resources.nocowell;
             pictureBox1.Refresh();
             pictureBox1.Visible = true;
         }
@@ -181,29 +225,9 @@ namespace HideAndSeek
             pictureBox1.Visible = true;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void pictureBox2_Click(object sender, EventArgs e)
         {
-            DialogResult result = this.openFileDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                this.fileURLTextBox2.Text = this.openFileDialog.FileName;
-            }
-        }
-
-        private void fileURLTextBox2_TextChanged(object sender, EventArgs e)
-        {
-            this.changePictureIDLE();
-            this.label10.Visible = false;
-            if (this.fileURLTextBox.Text != "")
-            {
-                Process.fileQuery(this, Process.f2);
-                Process.f2.Show();
-            }
-            else
-            {
-                this.fileURLTextBox2.Text = "PROCESS FAIL: Build graph first please!";
-            }
-            
+       
         }
     }
 
@@ -212,6 +236,7 @@ namespace HideAndSeek
     {
         static int jmlRumah;
         static List<List<int>> tree;
+        static bool[] isBody;
         static int[] pointsTo;
         static bool[] visited;
         static long[] arrive;
@@ -230,10 +255,15 @@ namespace HideAndSeek
         {
             tree = new List<List<int>>(jmlRumah + 1);
             pointsTo = new int[jmlRumah + 1];
+            isBody = new bool[jmlRumah + 1];
+            isBody[1] = true;
+
             for (int i = 0; i <= jmlRumah; i++)
             {
                 tree.Add(new List<int>());
             }
+
+            List<(int, int)> pending = new List<(int a, int b)>();
 
             for (int i = 0; i < jmlRumah - 1; i++)
             {
@@ -241,14 +271,55 @@ namespace HideAndSeek
 
                 int a = Int32.Parse(line[0]);
                 int b = Int32.Parse(line[1]);
-                //Console.WriteLine(jmlRumah);
-                pointsTo[b] = a;
+
+
+                if (isBody[a])
+                {
+                    pointsTo[b] = a;
+                    isBody[b] = true;
+                }
+                else if (isBody[b])
+                {
+                    pointsTo[a] = b;
+                    isBody[a] = true;
+                }
+                else
+                {
+                    pending.Add((a, b));
+                }
                 tree[a].Add(b);
                 tree[b].Add(a);
                 // Add edges between 2 vertices to graph object:
                 Microsoft.Glee.Drawing.Edge e = defaultG.AddEdge(line[0], line[1]);
                 // Set edges without arrowhead => UNDIRECTED GRAPH!
                 e.Attr.ArrowHeadAtTarget = ArrowStyle.None;
+            }
+
+            int idx = 0;
+            while (pending.Any())
+            {
+                if (idx >= pending.Count())
+                {
+                    idx = 0;
+                }
+                int a = pending[idx].Item1;
+                int b = pending[idx].Item2;
+                if (isBody[a])
+                {
+                    pointsTo[b] = a;
+                    isBody[b] = true;
+                    pending.RemoveAt(idx);
+                }
+                else if (isBody[b])
+                {
+                    pointsTo[a] = b;
+                    isBody[a] = true;
+                    pending.RemoveAt(idx);
+                }
+                else
+                {
+                    idx++;
+                }
             }
         }
 
@@ -268,22 +339,36 @@ namespace HideAndSeek
 
         static bool isChildOf(int nodeChild, int nodeParent)
         {
-            return arrive[nodeChild] > arrive[nodeParent] && leave[nodeChild] < leave[nodeParent];
+            if(nodeChild == nodeParent)
+            {
+                return true;
+            }
+            else
+                return arrive[nodeChild] > arrive[nodeParent] && leave[nodeChild] < leave[nodeParent];
         }
         // Generate Path:
         static public List<int> generatePath(int bottom, int upper, bool reverse)
         {
             Path.Clear();
             int current = bottom;
-            while (current != pointsTo[upper])
+            if(upper == bottom)
             {
                 Path.Add(current);
-                current = pointsTo[current];
             }
-            if (reverse)
-            {
-                Path.Reverse();
+            else {
+                while (current != pointsTo[upper])
+                {
+                    //Console.WriteLine(Path);
+                    Path.Add(current);
+                    current = pointsTo[current];
+                }
+                if (reverse)
+                {
+                    Path.Reverse();
+                }
             }
+
+
             return Path;
         }
         // Uncolor Graph:
@@ -319,7 +404,7 @@ namespace HideAndSeek
         // Colorize edges and vertices to mark path:
         public static void updateGraph()
         {
-
+            Console.WriteLine(Path.Count);
             for (int i = 0; i < Path.Count; i++)
             {
                 // COLOR THE NODES TRAVERSED IN RED
@@ -327,31 +412,25 @@ namespace HideAndSeek
                 n.Attr.Fillcolor = Microsoft.Glee.Drawing.Color.DarkRed;
                 // Bind the graph to the viewer
                 viewer.Graph = defaultG;
-                viewer.Dock = System.Windows.Forms.DockStyle.Fill;
+                viewer.Dock = DockStyle.Fill;
                 graphForm.Refresh();
                 System.Threading.Thread.Sleep(500);
                 // COLOR THE EDGES TOO:
                 // Edge e = graph.fi
                 // e.Attr.ArrowHeadAtTarget = ArrowStyle.None;
             }
-            // Bind the graph to the viewer
-            //viewer.Graph = defaultG;
-
-            /*
-            // Associate the viewer with the created form
-            graphForm.SuspendLayout();
-            viewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            graphForm.Controls.Add(viewer);
-            graphForm.ResumeLayout();
-
-            // Show the form as a new window, BUT not locked there!
-            graphForm.Show();*/
-
         }
 
         // FUNCTION TO DO LOAD GRAPH AND RUN DFS:
         public static void runDFS(Form1 f1)
         {
+            defaultG = new Graph("graph");
+            if(graphForm.IsDisposed)
+            {
+                Console.WriteLine(graphForm == null);
+                graphForm = new Form();
+                viewer = new Microsoft.Glee.GraphViewerGdi.GViewer();
+            }
             StreamReader sr = new StreamReader(@f1.getFileURL());
             string Rumah = sr.ReadLine();
             jmlRumah = Int32.Parse(Rumah);
@@ -380,12 +459,14 @@ namespace HideAndSeek
                 viewer.Dock = System.Windows.Forms.DockStyle.Fill;
                 graphForm.Controls.Add(viewer);
                 graphForm.ResumeLayout();
+                graphForm.Refresh();
 
             // Show the form as a new window, BUT not locked there!
                 graphForm.Show();
         }
 
-    // FUNCTION TO DO QUERY:
+    // FUNCTION TO DO QUERIES:
+        //External file queries:
         public static void fileQuery(Form1 f1,Form2 f2)
         {
             f2.resetBox();
@@ -434,11 +515,14 @@ namespace HideAndSeek
                     }
                 }
             }
-    }
+            f2.Show();
+
+        }
+
+        // Run individual query:
         public static void runQuery(Form1 f1, Form2 f2)
         {
-
-            if (f1.get01() != "" || f1.geta() != "" || f1.getb() != "" || f1.getFileURL() != "")
+            if (f1.get01() != "" && f1.geta() != "" && f1.getb() != "" && f1.getFileURL() != "")
             {
                 // Parse input (string) into integer from textboxes.
                 int Q = Int32.Parse(f1.get01());

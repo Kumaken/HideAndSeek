@@ -42,15 +42,18 @@
             this.fileURLTextBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.QueryButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.Qans = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.fileURLTextBox2 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.QueryButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -181,21 +184,6 @@
             this.comboBox1.Size = new System.Drawing.Size(50, 21);
             this.comboBox1.TabIndex = 14;
             // 
-            // QueryButton
-            // 
-            this.QueryButton.BackColor = System.Drawing.Color.Maroon;
-            this.QueryButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.QueryButton.FlatAppearance.BorderColor = System.Drawing.Color.Red;
-            this.QueryButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.QueryButton.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QueryButton.Image = ((System.Drawing.Image)(resources.GetObject("QueryButton.Image")));
-            this.QueryButton.Location = new System.Drawing.Point(677, 335);
-            this.QueryButton.Name = "QueryButton";
-            this.QueryButton.Size = new System.Drawing.Size(111, 103);
-            this.QueryButton.TabIndex = 15;
-            this.QueryButton.UseVisualStyleBackColor = false;
-            this.QueryButton.Click += new System.EventHandler(this.QueryButton_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -214,29 +202,6 @@
             this.Qans.Size = new System.Drawing.Size(0, 35);
             this.Qans.TabIndex = 17;
             this.Qans.Click += new System.EventHandler(this.label9_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox1.Image = global::HideAndSeek.Properties.Resources.hide;
-            this.pictureBox1.Location = new System.Drawing.Point(271, 98);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(260, 216);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 18;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Monotype Corsiva", 72F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.DarkTurquoise;
-            this.label9.Location = new System.Drawing.Point(12, -11);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(754, 117);
-            this.label9.TabIndex = 19;
-            this.label9.Text = "HIDE AND SEEK";
-            this.label9.Click += new System.EventHandler(this.label9_Click_1);
             // 
             // label10
             // 
@@ -280,17 +245,66 @@
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::HideAndSeek.Properties.Resources.monochrome;
+            this.pictureBox3.Location = new System.Drawing.Point(-1, 0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(802, 451);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 25;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Image = global::HideAndSeek.Properties.Resources.Title;
+            this.pictureBox2.Location = new System.Drawing.Point(21, 12);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(767, 82);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 24;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Black;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.Image = global::HideAndSeek.Properties.Resources.hide;
+            this.pictureBox1.Location = new System.Drawing.Point(265, 116);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(260, 216);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabStop = false;
+            // 
+            // QueryButton
+            // 
+            this.QueryButton.BackColor = System.Drawing.Color.Maroon;
+            this.QueryButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.QueryButton.FlatAppearance.BorderColor = System.Drawing.Color.Red;
+            this.QueryButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.QueryButton.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QueryButton.Image = ((System.Drawing.Image)(resources.GetObject("QueryButton.Image")));
+            this.QueryButton.Location = new System.Drawing.Point(677, 335);
+            this.QueryButton.Name = "QueryButton";
+            this.QueryButton.Size = new System.Drawing.Size(111, 103);
+            this.QueryButton.TabIndex = 15;
+            this.QueryButton.UseVisualStyleBackColor = false;
+            this.QueryButton.Click += new System.EventHandler(this.QueryButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.fileURLTextBox2);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.Qans);
             this.Controls.Add(this.label1);
@@ -307,12 +321,16 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.pictureBox3);
             this.ForeColor = System.Drawing.Color.Lime;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Hide and Seek";
-            this.TransparencyKey = System.Drawing.Color.LightPink;
+            this.TransparencyKey = System.Drawing.SystemColors.Window;
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -337,11 +355,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label Qans;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox fileURLTextBox2;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
 

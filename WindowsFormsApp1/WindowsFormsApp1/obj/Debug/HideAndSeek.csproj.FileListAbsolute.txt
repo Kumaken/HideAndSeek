@@ -15,3 +15,12 @@ c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft
 c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.GLEE.Drawing.pdb
 c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.GLEE.GraphViewerGDI.pdb
 c:\users\user\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.csproj.CopyComplete
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Msagl.dll
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Msagl.Drawing.dll
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Msagl.GraphViewerGdi.dll
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Msagl.xml
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Msagl.Drawing.xml
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\Microsoft.Msagl.GraphViewerGdi.xml
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\HideAndSeek.Form2.resources
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\System.ValueTuple.dll
+C:\Users\User\source\repos\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\System.ValueTuple.xml
