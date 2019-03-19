@@ -10,6 +10,7 @@ namespace HideAndSeek
     static class Program
     {
         static List<List<int>> tree;
+        static bool[] isBody;
         static int [] pointsTo;
         static bool[] visited;
         static long[] arrive;
@@ -23,6 +24,7 @@ namespace HideAndSeek
             int current = bottom;
             while (current != pointsTo[upper])
             {
+                Console.WriteLine(current);
                 Path.Add(current);
                 current = pointsTo[current];
             }
@@ -36,10 +38,15 @@ namespace HideAndSeek
         {
             tree = new List<List<int>>(jmlRumah + 1);
             pointsTo = new int[jmlRumah + 1];
+            isBody = new bool[jmlRumah + 1];
+            isBody[1] = true;
+
             for (int i = 0; i <= jmlRumah; i++)
             {
                 tree.Add(new List<int>());
             }
+
+            List<(int, int)> pending = new List<(int a, int b)>();
 
             for (int i = 0; i < jmlRumah - 1; i++)
             {
@@ -47,10 +54,48 @@ namespace HideAndSeek
 
                 int a = Int32.Parse(line[0]);
                 int b = Int32.Parse(line[1]);
-                //Console.WriteLine(jmlRumah);
-                pointsTo[b] = a;
+                if (isBody[a])
+                {
+                    pointsTo[b] = a;
+                    isBody[b] = true;
+                }
+                else if (isBody[b])
+                {
+                    pointsTo[a] = b;
+                    isBody[a] = true;
+                }
+                else
+                {
+                    pending.Add((a, b));
+                }
                 tree[a].Add(b);
                 tree[b].Add(a);
+            }
+            int idx = 0;
+            while (pending.Any())
+            {
+                if (idx>=pending.Count())
+                {
+                    idx = 0;
+                }
+                int a = pending[idx].Item1;
+                int b = pending[idx].Item2;
+                if (isBody[a])
+                {
+                    pointsTo[b] = a;
+                    isBody[b] = true;
+                    pending.RemoveAt(idx);
+                }
+                else if (isBody[b])
+                {
+                    pointsTo[a] = b;
+                    isBody[a] = true;
+                    pending.RemoveAt(idx);
+                }
+                else
+                {
+                    idx++;
+                }
             }
         }
 
